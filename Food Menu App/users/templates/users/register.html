@@ -1,0 +1,45 @@
+{% extends 'food/base.html' %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        {% block body %}
+
+        <div class="container">
+            <div class="row">
+              <div class="col-md-4 offset-md-4">
+                <div class="card">
+                  <div class="card-header bg-dark">
+                    <div class="card-title text-white pt-2">
+                      <h3>Register</h3>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <form method="POST">
+                      {% csrf_token %}
+                      {% for field in form %}
+                      <div class="form-group mt-2">
+                        {{ field.name }}
+                        <br>
+                        {{ field }}
+                      </div>
+                      {% endfor %}
+                      <button type="submit" class="btn btn-primary mt-3">Sign Up</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {% endblock %}
+    </body>
+</html>
