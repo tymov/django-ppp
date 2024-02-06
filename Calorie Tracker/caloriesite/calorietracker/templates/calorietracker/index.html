@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <style>
+      /* Add custom CSS styles here */
+      .progress-bar {
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-md-12">
+        <nav class="navbar navbar-dark bg-dark">
+          <span class="navbar-brand">Calorie Tracker</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form method="POST" class="form-group row mt-3">
+            {% csrf_token %}
+
+            <select
+              class="col-md-6 form-control"
+              name="food_consumed"
+              id="food_consumed"
+            >
+              <option value="0">Select a food</option>
+              {% for food in food_list %}
+              <option value="{{ food.name }}">{{ food.name }}</option>
+              {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="progress">
+            <div
+              class="progress-bar bg-success"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="0"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mt-3">
+          <h1>Food Consumed</h1>
+
+          <table id="table" class="table table-striped">
+            <thead class="bg-light">
+              <tr>
+                <th>Food</th>
+                <th>Proteins (g)</th>
+                <th>Carbs (g)</th>
+                <th>Fat <br />(g)</th>
+                <th>Calories (kCal)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for food in consumed_foods %}
+              <tr>
+                <td>{{ food.food_consumed.name }}</td>
+                <td>{{ food.food_consumed.protein }}</td>
+                <td>{{ food.food_consumed.carbohydrate }}</td>
+                <td>{{ food.food_consumed.fat }}</td>
+                <td>{{ food.food_consumed.calories }}</td>
+                <td><a class="btn btn-danger" href="{% url 'delete' food.id %}">X</a></td>
+              </tr>
+              {% endfor %}
+
+              <tr>
+                <td><b>Total</b></td>
+                <td id="totalProtien"></td>
+                <td id="totalCarbs"></td>
+                <td id="totalFats"></td>
+                <td id="totalCalories"></td>
+                <td></td>   
+              </tr>
+            </tbody>
+          </table>
+        </div>
+            <div class="col-md-6 mt-5">
+              <canvas id="myChart"></canvas>
+            </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    var table = document.getElementById("table");
+    var carbs = 0,
+      protein = 0,
+      fats = 0,
+      calories = 0;
+
+    for (var i = 1; i < table.rows.length - 1; i++) {
+      console.log(table.rows[i].cells[1].innerHTML);
+      carbs += parseFloat(table.rows[i].cells[2].innerHTML);
+      carbs = Math.round(carbs);
+      protein += parseFloat(table.rows[i].cells[1].innerHTML);
+      protein = Math.round(protein);
+      fats += parseFloat(table.rows[i].cells[3].innerHTML);
+      fats = Math.round(fats);
+      calories += parseFloat(table.rows[i].cells[4].innerHTML);
+      calories = Math.round(calories);
+    }
+    console.log(fats);
+
+    document.getElementById("totalCarbs").innerHTML = "<b>" + carbs + "(g)</b>";
+
+    document.getElementById("totalProtien").innerHTML =
+      "<b>" + protein + "(g)</b>";
+
+    document.getElementById("totalFats").innerHTML = "<b>" + fats + "(g)</b>";
+
+    document.getElementById("totalCalories").innerHTML =
+      "<b>" + calories + "(Kcal)</b>";
+
+    var calPer = (calories / 2000) * 100;
+    document
+      .getElementsByClassName("progress-bar")[0]
+      .setAttribute("style", "width:" + calPer + "%");
+
+    var total = carbs + protein + fats;
+    var carbsP = Math.round((carbs / total) * 100);
+    var protienP = Math.round((protein / total) * 100);
+    var fatsP = Math.round((fats / total) * 100);
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [
+          "Carbs " + carbsP + "%",
+          "Protein " + protienP + "%",
+          "Fats " + fatsP + "%",
+        ],
+        datasets: [
+          {
+            label: "# of Votes",
+            data: [carbsP, protienP, fatsP],
+            backgroundColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+    });
+  </script>
+</html>
