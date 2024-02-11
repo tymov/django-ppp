@@ -33,52 +33,56 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="row">
-      <div class="col-md-12">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">Tymo's Store</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="#"
-                  >Home <span class="sr-only">(current)</span></a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Checkout</a>
-              </li>
-              <li class="nav-item">
-                <button
-                  id="cart"
-                  data-html="true"
-                  type="button"
-                  class="btn btn-secondary"
-                  data-container="body"
-                  data-toggle="popover"
-                  data-placement="bottom"
-                  data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-                >
-                  Cart(0)
-                </button>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </div>
-
     <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">ABC Shopping</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#"
+                    >Home <span class="sr-only">(current)</span></a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                  <button
+                    id="cart"
+                    data-html="true"
+                    type="button"
+                    class="btn btn-secondary"
+                    data-container="body"
+                    data-toggle="popover"
+                    data-placement="bottom"
+                    data-content="Vivamus
+                            sagittis lacus vel augue laoreet rutrum faucibus."
+                  >
+                    Cart(0)
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+
       <div class="row m-5">
         <div class="col-md-12">
           <form class="card card-sm">
@@ -103,17 +107,17 @@
         {% for product in product_objects %}
         <div class="col-md-3">
           <div class="card">
-            <img src="{{ product.image }}" class="card-img-top" />
+            <img src=" {{product.image }}" class="card-img-top" />
             <div class="card-body">
-              <div id="nm{{ product.id }}" class="card-title">
+              <div id="nm{{product.id}}" class="card-title">
                 {{ product.title }}
               </div>
-              <div id="price{{ product.id }}" class="card-text">
+              <div id="price{{product.id}}" class="card-text">
                 {{ product.price }}
               </div>
 
-              <a href="/{{ product.id }}" class="btn btn-warning">View</a>
-              <button id="{{ product.id }}" class="btn atc btn-warning">
+              <a href="/{{product.id}}" class="btn btn-warning">View</a>
+              <button id="{{product.id}}" class="btn atc btn-warning">
                 Add to cart
               </button>
             </div>
@@ -123,37 +127,34 @@
       </div>
 
       <div class="row">
-        <div class="col-md-12">
-          <!-- Move the pagination to the bottom right -->
-          <div class="pagination-container">
-            <ul class="pagination">
-              {% if product_objects.has_previous %}
-              <li class="page-item">
-                <a
-                  class="page-link"
-                  href="?page={{ product_objects.previous_page_number }}"
-                  >Previous</a
-                >
-              </li>
-              {% endif %}
+        <div class="col-md-3 offset-md-4">
+          <ul class="pagination">
+            {% if product_objects.has_previous %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?page={{ product_objects.previous_page_number  }}"
+                >Previous</a
+              >
+            </li>
+            {% endif %}
 
-              <li class="page-item active">
-                <a class="page-link" href="?page={{ product_objects.number }}"
-                  >Current</a
-                >
-              </li>
+            <li class="page-item active">
+              <a class="page-link" href="?page={{ product_objects.number  }}"
+                >Current</a
+              >
+            </li>
 
-              {% if product_objects.has_next %}
-              <li class="page-item">
-                <a
-                  class="page-link"
-                  href="?page={{ product_objects.next_page_number }}"
-                  >Next</a
-                >
-              </li>
-              {% endif %}
-            </ul>
-          </div>
+            {% if product_objects.has_next %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?page={{ product_objects.next_page_number  }}"
+                >Next</a
+              >
+            </li>
+            {% endif %}
+          </ul>
         </div>
       </div>
     </div>

@@ -14,8 +14,10 @@ class Product(models.Model):
  
  
 class Order(models.Model):
- 
     
+    def __str__(self):
+        return self.name
+        
     items = models.CharField(max_length=1000)
     name = models.CharField(max_length=200)
     email =models.CharField(max_length=200)
@@ -24,3 +26,4 @@ class Order(models.Model):
     state = models.CharField(max_length=200)
     zipcode = models.CharField(max_length=200)
     total = models.CharField(max_length=200)
+    
